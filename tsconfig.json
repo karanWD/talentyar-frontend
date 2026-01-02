@@ -25,9 +25,18 @@
     ],
 
     /* Paths & Aliases */
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["*"],
+      "@/app/*": ["app/*"],
+      "@/constants/*": ["constants/*"],
+      "@/core/*": ["core/*"],
+      "@/features/*": ["features/*"],
+      "@/ui/*": ["ui/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/lib/*": ["lib/*"],
+      "@/stores/*": ["stores/*"],
+      "@/types/*": ["types/*"]
     },
 
     /* Build */
