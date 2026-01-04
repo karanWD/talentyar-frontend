@@ -1,3 +1,5 @@
+import { abril, appFont } from "@/core/fonts/font";
+
 import "./globals.css";
 import Providers from "./providers";
 
@@ -12,9 +14,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fa" dir="rtl">
-      <body>
-        <Providers>{children}</Providers>
+    <html
+      lang="fa"
+      dir="rtl"
+      className={`${appFont.variable} ${abril.variable} font-sans`}
+    >
+      <body className="bg-background">
+        <Providers>
+          <div className="mx-auto min-h-screen max-w-[500px]">{children}</div>
+        </Providers>
       </body>
     </html>
   );
