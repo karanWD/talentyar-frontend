@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 export const appFont = localFont({
   src: [
     {
-      path: "../../assets/fonts/IRANSansX-Regular.woff2",
+      path: "../../assets/fonts/IRANSansXFaNum-Regular.woff2",
       weight: "400",
       style: "normal",
     },
@@ -14,7 +14,7 @@ export const appFont = localFont({
     //   style: "normal",
     // },
     {
-      path: "../../assets/fonts/IRANSansX-Bold.woff2",
+      path: "../../assets/fonts/IRANSansXFaNum-Bold.woff2",
       weight: "700",
       style: "normal",
     },
