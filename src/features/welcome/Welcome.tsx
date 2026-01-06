@@ -12,9 +12,9 @@ const steps = [
 export default function Welcome() {
   return (
     <main className="relative flex min-h-screen flex-col justify-between bg-[url('/images/welcome.jpg')] bg-cover bg-center px-4 py-7">
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/70 to-black/90"></div>
 
-      <p className="font-abril relative z-10 text-center text-[42px] text-white">
+      <p className="font-display relative z-10 text-center text-[42px] text-white">
         TALENTYAR
       </p>
 
