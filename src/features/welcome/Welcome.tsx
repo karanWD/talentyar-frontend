@@ -35,7 +35,7 @@ export default function Welcome() {
       </section>
 
       <Button asChild className="relative z-10" variant="default" size={"lg"}>
-        <Link href="/login">شروع</Link>
+        <Link href="/auth">شروع</Link>
       </Button>
     </main>
   );
