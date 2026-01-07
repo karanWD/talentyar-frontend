@@ -4,7 +4,7 @@ type VerticalStepperProps = {
 
 export function VerticalStepper({ steps }: VerticalStepperProps) {
   return (
-    <div className="flex flex-col gap-[5px]">
+    <div className="flex flex-col gap-1.25">
       {steps.map((step, index) => {
         const isLast = index === steps.length - 1;
 
@@ -18,7 +18,7 @@ export function VerticalStepper({ steps }: VerticalStepperProps) {
               {!isLast && <span className="mt-2 h-5 w-px bg-neutral-400" />}
             </div>
 
-            <p className="text-lg leading-relaxed text-white">{step}</p>
+            <p className="text-lg leading-7 text-white">{step}</p>
           </div>
         );
       })}

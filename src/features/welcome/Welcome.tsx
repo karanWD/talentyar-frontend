@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+
 import { Button } from "@/ui/button";
 
 import { VerticalStepper } from "./components/VerticalStepper";
@@ -25,15 +27,15 @@ export default function Welcome() {
           خوش آمدید
         </h1>
 
-        <p className="relative z-10 text-lg leading-6 text-white">
+        <p className="relative z-10 text-lg leading-7 text-white">
           اینجا جاییه که فوتبال حرف اول را میزنه
         </p>
 
         <VerticalStepper steps={steps} />
       </section>
 
-      <Button className="relative z-10 rounded-full" variant="default">
-        شروع
+      <Button asChild className="relative z-10" variant="default" size={"lg"}>
+        <Link href="/login">شروع</Link>
       </Button>
     </main>
   );
