@@ -37,26 +37,19 @@ export default function PhoneStep({
           ورود یا ثبت نام در تلنت‌یار
         </p>
         <p className="text-muted-foreground text-sm leading-5 font-medium">
-          یک قدم تا دیده شدن فاصله داری،وارد شو و استعداد فوتبالیت رو نشون
-          بده،برای ورود شماره همراه خود را وارد کنید
+          یک قدم تا دیده شدن فاصله داری، وارد شو و استعداد فوتبالیت رو نشون بده،
+          برای ورود شماره همراه خود را وارد کنید
         </p>
       </div>
 
       <div className="flex flex-1 flex-col gap-2">
-        <label htmlFor="" className="text-sm leading-5 font-medium">
-          شماره همراه
-        </label>
+        <label className="text-sm leading-5 font-medium">شماره همراه</label>
         <InputGroup>
-          <InputGroupInput type="number" placeholder="09*********" />
+          <InputGroupInput type="number" placeholder="*********09" />
           <InputGroupAddon>
             <PhoneCallIcon />
           </InputGroupAddon>
         </InputGroup>
-        {/* <input
-          {...form.register("phone", { required: true })}
-          placeholder="شماره موبایل"
-          className="h-12 rounded-md border px-3"
-        /> */}
       </div>
 
       <Button size={"lg"} type="submit" disabled={isPending}>
