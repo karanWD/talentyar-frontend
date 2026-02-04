@@ -7,7 +7,7 @@ import OtpStep from "./components/OtpStep";
 import PhoneStep from "./components/PhoneStep";
 
 export default function AuthFlow() {
-  const [step, setStep] = useState<"phone" | "otp">("phone");
+  const [step, setStep] = useState<"phone" | "otp">("otp");
   const [phone, setPhone] = useState("");
 
   return (
