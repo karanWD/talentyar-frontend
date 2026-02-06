@@ -7,8 +7,10 @@ import { VerticalStepper } from "./components/VerticalStepper";
 
 const steps = [
   "از مهارتات فیلم‌برداری کن",
-  "توی تلنت‌یار آپلودشون کن",
-  "و استعدادت و به همه نشون بده",
+  "ویدیو هات رو تو تلنت‌یار آپلود کن",
+  "توسط تیم ما ارزیابی شو",
+  "کشف شو",
+  "مسیر حرفه ایت رو پیدا کن !",
 ];
 
 export default function Welcome() {
