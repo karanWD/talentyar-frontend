@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/ui/button";
 
 export default function ResendTimer({
-  seconds = 10,
+  seconds = 60,
   onResend,
 }: {
   seconds?: number;

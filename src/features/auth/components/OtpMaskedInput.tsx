@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/ui/input";
@@ -8,6 +8,7 @@ import { Input } from "@/ui/input";
 type Props = {
   value: string;
   onChange: (value: string) => void;
+  onComplete?: (value: string) => void;
   length?: number;
   disabled?: boolean;
 };
@@ -15,10 +16,21 @@ type Props = {
 export default function OtpMaskedInput({
   value,
   onChange,
+  onComplete,
   length = 4,
   disabled,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const isCompleted = value.length === length;
+
+  useEffect(() => {
+    if (isCompleted) {
+      onComplete?.(value);
+
+      inputRef.current?.blur();
+    }
+  }, [isCompleted, value, onComplete]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, length);
