@@ -36,7 +36,15 @@ export default function Welcome() {
         <VerticalStepper steps={steps} />
       </section>
 
-      <Button asChild className="relative z-10" variant="default" size={"lg"}>
+      <Button
+        asChild
+        className="relative z-10"
+        variant="default"
+        size={"lg"}
+        onClick={() => {
+          localStorage.setItem("welcome_seen", "true");
+        }}
+      >
         <Link href="/auth">شروع</Link>
       </Button>
     </main>
