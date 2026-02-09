@@ -3,9 +3,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { PhoneCallIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/ui/input-group";
+
+import { sendOtp } from "../api";
 
 type FormValues = {
   phone: string;
@@ -22,21 +25,21 @@ export default function PhoneStep({
     formState: { errors },
   } = useForm<FormValues>();
 
-  // * mock mutation
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: FormValues) => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      return data;
+  const sendOtpMutation = useMutation({
+    mutationFn: (payload: FormValues) => sendOtp(payload),
+
+    onSuccess: (_, variables) => {
+      onSuccess(variables.phone);
     },
 
-    onSuccess: (data) => {
-      onSuccess(data.phone);
+    onError: (error) => {
+      toast.error(error.message, { position: "top-center" });
     },
   });
 
   return (
     <form
-      onSubmit={handleSubmit((data) => mutate(data))}
+      onSubmit={handleSubmit((data) => sendOtpMutation.mutate(data))}
       className="flex h-full flex-1 flex-col gap-4 pb-7"
     >
       <div className="flex flex-col gap-4">
@@ -77,8 +80,8 @@ export default function PhoneStep({
         )}
       </div>
 
-      <Button size="lg" type="submit" disabled={isPending}>
-        {isPending ? "در حال ارسال..." : "ورود"}
+      <Button size="lg" type="submit" disabled={sendOtpMutation.isPending}>
+        {sendOtpMutation.isPending ? "در حال ارسال..." : "ورود"}
       </Button>
     </form>
   );

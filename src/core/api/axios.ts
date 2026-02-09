@@ -11,13 +11,18 @@ api.interceptors.request.use(
   (config) => {
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor
 api.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error)
+  (error) => {
+    const message =
+      error?.response?.data?.message || "خطای غیرمنتظره‌ای رخ داد";
+
+    return Promise.reject(new Error(message));
+  },
 );
 
 export default api;
