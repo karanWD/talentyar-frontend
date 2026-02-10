@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { ApiResponse } from "./types";
+
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   timeout: 15000,
@@ -18,10 +20,20 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message =
-      error?.response?.data?.message || "خطای غیرمنتظره‌ای رخ داد";
+    const data = error?.response?.data as ApiResponse<unknown> | undefined;
 
-    return Promise.reject(new Error(message));
+    if (data?.errors) {
+      const firstFieldError = Object.values(data.errors)[0]?.[0];
+      if (firstFieldError) {
+        return Promise.reject(new Error(firstFieldError));
+      }
+    }
+
+    if (data?.message) {
+      return Promise.reject(new Error(data.message));
+    }
+
+    return Promise.reject(new Error("خطای غیرمنتظره‌ای رخ داد"));
   },
 );
 

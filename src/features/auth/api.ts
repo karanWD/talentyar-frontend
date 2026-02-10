@@ -8,5 +8,12 @@ export const sendOtp = (payload: SendOtpPayload) => {
 };
 
 export const login = (payload: LoginPayload) => {
-  return http.post<ApiResponse<LoginResponse>>("/user/auth/login", payload);
+  return http
+    .post<
+      ApiResponse<LoginResponse>,
+      typeof payload
+    >("/user/auth/login", payload)
+    .then((res) => {
+      return res.data!;
+    });
 };

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/ui/button";
+import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/ui/input-group";
 
 import { sendOtp } from "../api";
@@ -23,7 +24,7 @@ export default function PhoneStep({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({ mode: "onBlur" });
 
   const sendOtpMutation = useMutation({
     mutationFn: (payload: FormValues) => sendOtp(payload),
@@ -33,7 +34,7 @@ export default function PhoneStep({
     },
 
     onError: (error) => {
-      toast.error(error.message, { position: "top-center" });
+      toast.error(error.message, { position: "top-center", richColors: true });
     },
   });
 
@@ -53,11 +54,11 @@ export default function PhoneStep({
         </p>
       </div>
 
-      <div className="flex flex-1 flex-col gap-2">
-        <label className="text-sm leading-5 font-medium">شماره همراه</label>
-
+      <Field data-invalid={!!errors?.phone} className="flex-1">
+        <FieldLabel htmlFor="phone-field">شماره همراه</FieldLabel>
         <InputGroup>
           <InputGroupInput
+            id="phone-field"
             type="tel"
             placeholder="*********09"
             {...register("phone", {
@@ -69,16 +70,16 @@ export default function PhoneStep({
             })}
             aria-invalid={!!errors?.phone}
           />
-
           <InputGroupAddon>
             <PhoneCallIcon />
           </InputGroupAddon>
         </InputGroup>
-
         {errors.phone && (
-          <p className="text-destructive text-xs">{errors.phone.message}</p>
+          <FieldDescription className="text-destructive">
+            {errors.phone.message}
+          </FieldDescription>
         )}
-      </div>
+      </Field>
 
       <Button size="lg" type="submit" disabled={sendOtpMutation.isPending}>
         {sendOtpMutation.isPending ? "در حال ارسال..." : "ورود"}

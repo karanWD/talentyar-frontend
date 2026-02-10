@@ -7,7 +7,35 @@ export type LoginPayload = {
   otp: string;
 };
 
+export type User = {
+  id: number;
+  first_name: string | null;
+  last_name: string | null;
+  full_name: string | null;
+  phone: string;
+  email: string | null;
+  username: string | null;
+  province_id: number | null;
+  city_id: number | null;
+  gender: string | null;
+  birth_date: string | null;
+  weight: number | null;
+  height: number | null;
+  foot_specialization: string | null;
+  post_skill: string | null;
+  skill_level: string | null;
+  activity_history: string | null;
+  team_name: string | null;
+  favorite_iranian_team: string | null;
+  favorite_foreign_team: string | null;
+  shirt_number: number | null;
+  bio: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type LoginResponse = {
   token: string;
-  is_new_user: boolean;
+  user: User;
+  first_user: boolean;
 };

@@ -3,10 +3,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/ui/button";
 
-import { sendOtp } from "../api";
+import { login, sendOtp } from "../api";
 
 import OtpMaskedInput from "./OtpMaskedInput";
 import ResendTimer from "./ResendTimer";
@@ -21,27 +22,43 @@ export default function OtpStep({
   const [otp, setOtp] = useState("");
   const router = useRouter();
 
-  // mock login
   const loginMutation = useMutation({
-    mutationFn: async ({ phone, otp }: { phone: string; otp: string }) => {
-      await new Promise((r) => setTimeout(r, 800));
-
-      return {
-        is_new_user: otp === "1111", // mock logic
-      };
-    },
+    mutationFn: ({ phone, otp }: { phone: string; otp: string }) =>
+      login({ phone, otp }),
 
     onSuccess: (data) => {
-      if (data.is_new_user) {
+      localStorage.setItem("token", data.token);
+
+      toast.success("ورود با موفقیت انجام شد");
+
+      if (data.first_user) {
         router.push("/onboarding");
       } else {
         router.push("/");
       }
     },
+
+    onError: (error) => {
+      toast.error(error.message, {
+        position: "top-center",
+        richColors: true,
+      });
+    },
   });
 
   const resendMutation = useMutation({
     mutationFn: () => sendOtp({ phone }),
+
+    onSuccess: () => {
+      toast.success("کد تایید مجدداً ارسال شد", {
+        position: "top-center",
+        richColors: true,
+      });
+    },
+
+    onError: (error) => {
+      toast.error(error.message, { position: "top-center", richColors: true });
+    },
   });
 
   return (
@@ -63,8 +80,7 @@ export default function OtpStep({
           value={otp}
           onChange={setOtp}
           onComplete={(code) => {
-            console.log("OTP complete:", code);
-            router.push("/onboarding");
+            loginMutation.mutate({ phone, otp: code });
           }}
         />
         <ResendTimer onResend={() => resendMutation.mutate()} />
