@@ -2,15 +2,21 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/ui/button";
+import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 
 import { login, sendOtp } from "../api";
 
 import OtpMaskedInput from "./OtpMaskedInput";
 import ResendTimer from "./ResendTimer";
+
+type OtpFormValues = {
+  otp: string;
+};
 
 export default function OtpStep({
   phone,
@@ -19,29 +25,36 @@ export default function OtpStep({
   phone: string;
   onEditPhone: () => void;
 }) {
-  const [otp, setOtp] = useState("");
   const router = useRouter();
 
+  const {
+    control,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<OtpFormValues>({
+    defaultValues: { otp: "" },
+  });
+
   const loginMutation = useMutation({
-    mutationFn: ({ phone, otp }: { phone: string; otp: string }) =>
-      login({ phone, otp }),
+    mutationFn: ({ otp }: OtpFormValues) => login({ phone, otp }),
 
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
 
-      toast.success("ورود با موفقیت انجام شد");
+      toast.success("ورود با موفقیت انجام شد", {
+        position: "top-center",
+        richColors: true,
+      });
 
-      if (data.first_user) {
-        router.push("/onboarding");
-      } else {
-        router.push("/");
-      }
+      router.push(data.first_user ? "/onboarding" : "/");
     },
 
     onError: (error) => {
-      toast.error(error.message, {
-        position: "top-center",
-        richColors: true,
+      setError("otp", {
+        type: "server",
+        message: error?.message || "کد وارد شده صحیح نیست",
       });
     },
   });
@@ -57,42 +70,85 @@ export default function OtpStep({
     },
 
     onError: (error) => {
-      toast.error(error.message, { position: "top-center", richColors: true });
+      toast.error(error.message, {
+        position: "top-center",
+        richColors: true,
+      });
     },
   });
 
+  const onSubmit = (data: OtpFormValues) => {
+    loginMutation.mutate(data);
+  };
+
+  const handleComplete = useCallback(
+    (code: string) => {
+      loginMutation.mutate({ otp: code });
+    },
+    [loginMutation],
+  );
+
   return (
-    <div className="flex h-full flex-1 flex-col gap-8 pb-7">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex h-full flex-1 flex-col gap-8 pb-7"
+    >
       <div className="flex flex-col gap-4">
         <p className="text-foreground font-bold">تایید شماره همراه</p>
 
         <p className="text-muted-foreground text-sm">
           کد تایید برای شماره {phone} پیامک شد
-          <Button onClick={onEditPhone} variant="link" className="px-2">
+          <Button
+            type="button"
+            onClick={onEditPhone}
+            variant="link"
+            className="px-2"
+          >
             ویرایش
           </Button>
         </p>
       </div>
 
       <div className="flex flex-1 flex-col gap-3">
-        <label className="text-sm font-medium">کد تایید</label>
-        <OtpMaskedInput
-          value={otp}
-          onChange={setOtp}
-          onComplete={(code) => {
-            loginMutation.mutate({ phone, otp: code });
-          }}
-        />
+        <Field data-invalid={!!errors.otp}>
+          <FieldLabel>کد تایید</FieldLabel>
+
+          <Controller
+            name="otp"
+            control={control}
+            rules={{
+              required: "کد تایید الزامی است",
+              minLength: {
+                value: 4,
+                message: "کد تایید کامل نیست",
+              },
+            }}
+            render={({ field }) => (
+              <OtpMaskedInput
+                value={field.value}
+                invalid={!!errors.otp}
+                onChange={(val) => {
+                  field.onChange(val);
+                  if (errors.otp) clearErrors("otp");
+                }}
+                onComplete={handleComplete}
+              />
+            )}
+          />
+
+          {errors.otp && (
+            <FieldDescription className="text-destructive">
+              {errors.otp.message}
+            </FieldDescription>
+          )}
+        </Field>
+
         <ResendTimer onResend={() => resendMutation.mutate()} />
       </div>
 
-      <Button
-        size="lg"
-        disabled={otp.length !== 4 || loginMutation.isPending}
-        onClick={() => loginMutation.mutate({ phone, otp })}
-      >
+      <Button type="submit" size="lg" disabled={loginMutation.isPending}>
         {loginMutation.isPending ? "در حال بررسی..." : "ثبت"}
       </Button>
-    </div>
+    </form>
   );
 }

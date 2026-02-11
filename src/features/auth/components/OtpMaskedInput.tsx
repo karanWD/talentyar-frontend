@@ -11,6 +11,7 @@ type Props = {
   onComplete?: (value: string) => void;
   length?: number;
   disabled?: boolean;
+  invalid?: boolean;
 };
 
 export default function OtpMaskedInput({
@@ -19,18 +20,19 @@ export default function OtpMaskedInput({
   onComplete,
   length = 4,
   disabled,
+  invalid,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const isCompleted = value.length === length;
+  const prevLengthRef = useRef(0);
 
   useEffect(() => {
-    if (isCompleted) {
+    if (value.length === length && prevLengthRef.current !== length) {
       onComplete?.(value);
-
-      inputRef.current?.blur();
     }
-  }, [isCompleted, value, onComplete]);
+
+    prevLengthRef.current = value.length;
+  }, [value, length, onComplete]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, length);
@@ -41,8 +43,11 @@ export default function OtpMaskedInput({
     <div
       onClick={() => inputRef.current?.focus()}
       className={cn(
-        "border-input bg-background relative flex h-12 w-full items-center rounded-full border px-3",
-        "focus-within:ring-ring focus-within:ring-2",
+        "bg-background relative flex h-12 w-full items-center rounded-full border px-3",
+        invalid
+          ? "border-destructive focus-within:ring-destructive"
+          : "border-input focus-within:ring-ring",
+        "focus-within:ring-2",
         disabled && "opacity-50",
       )}
     >
