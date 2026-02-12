@@ -1,19 +1,17 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+import { useForm, Controller, useWatch } from "react-hook-form";
 
+import { useOnboardingStore } from "@/stores/onboarding.store";
 import { Button } from "@/ui/button";
 import { DrawerSelect } from "@/ui/drawer-select";
+import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 import { Input } from "@/ui/input";
 
+import { getProvinces, getCities } from "../api";
 import { genderOption } from "../constants/onboarding-constants";
-
-type FormValues = {
-  gender: "male" | "female";
-  birthDate: string;
-  weight: number;
-  height: number;
-};
+import { PersonalInfoType } from "../types";
 
 export default function PersonalInfoStep({
   onNext,
@@ -22,18 +20,55 @@ export default function PersonalInfoStep({
   onNext: () => void;
   onBack: () => void;
 }) {
+  const { profileDraft, updateDraft } = useOnboardingStore();
+
   const {
     register,
     handleSubmit,
+    control,
     setValue,
-    watch,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<PersonalInfoType>({
+    defaultValues: {
+      birth_date: profileDraft?.birth_date,
+      province_id: profileDraft?.province_id,
+      city_id: profileDraft?.city_id,
+      gender: profileDraft?.gender,
+      height: profileDraft?.height,
+      weight: profileDraft?.weight,
+    },
+  });
 
-  const gender = watch("gender");
+  const provinceId = useWatch({
+    control,
+    name: "province_id",
+  });
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Personal Info:", data);
+  const { data: provincesData } = useQuery({
+    queryKey: ["provinces"],
+    queryFn: () => getProvinces(),
+  });
+
+  const { data: citiesData } = useQuery({
+    queryKey: ["cities", provinceId],
+    queryFn: () => getCities(+provinceId),
+    enabled: !!provinceId,
+  });
+
+  const provinces =
+    provincesData?.data?.provinces.map((p) => ({
+      label: p.name,
+      value: p.id.toString(),
+    })) ?? [];
+
+  const cities =
+    citiesData?.data?.cities.map((c) => ({
+      label: c.name,
+      value: c.id.toString(),
+    })) ?? [];
+
+  const onSubmit = (data: PersonalInfoType) => {
+    updateDraft(data);
     onNext();
   };
 
@@ -42,55 +77,102 @@ export default function PersonalInfoStep({
       onSubmit={handleSubmit(onSubmit)}
       className="mt-8 flex flex-1 flex-col gap-6"
     >
-      <div className="flex flex-col gap-2">
-        <h2 className="text-base font-bold">اطلاعات شخصی</h2>
-        <p className="text-muted-foreground text-xs">
-          اطلاعات شخصی خود را تکمیل کنید.
-        </p>
-      </div>
+      <Field data-invalid={!!errors.province_id}>
+        <FieldLabel>استان</FieldLabel>
+        <Controller
+          control={control}
+          name="province_id"
+          rules={{ required: "استان الزامی است" }}
+          render={({ field }) => (
+            <DrawerSelect
+              {...field}
+              options={provinces}
+              placeholder="انتخاب استان"
+              onChange={(value: string) => {
+                field.onChange(value);
+                setValue("city_id", "");
+              }}
+              error={!!errors.province_id}
+            />
+          )}
+        />
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">جنسیت</label>
+        {errors.province_id && (
+          <FieldDescription className="text-destructive">
+            {errors.province_id.message}
+          </FieldDescription>
+        )}
+      </Field>
 
-        <DrawerSelect
-          {...register("gender", {
-            required: "جنسیت الزامی است",
-          })}
-          value={gender}
-          onChange={(value: "male" | "female") =>
-            setValue("gender", value, { shouldValidate: true })
-          }
-          title="انتخاب جنسیت"
-          placeholder="انتخاب جنسیت"
-          options={genderOption}
-          error={!!errors.gender}
+      <Field data-invalid={!!errors.city_id}>
+        <FieldLabel>شهر</FieldLabel>
+        <Controller
+          control={control}
+          name="city_id"
+          rules={{ required: "شهر الزامی است" }}
+          render={({ field }) => (
+            <DrawerSelect
+              {...field}
+              options={cities}
+              placeholder="انتخاب شهر"
+              disabled={!provinceId}
+              error={!!errors.city_id}
+            />
+          )}
+        />
+
+        {errors.city_id && (
+          <FieldDescription className="text-destructive">
+            {errors.city_id.message}
+          </FieldDescription>
+        )}
+      </Field>
+
+      <Field data-invalid={!!errors.gender}>
+        <FieldLabel>جنسیت</FieldLabel>
+        <Controller
+          control={control}
+          name="gender"
+          rules={{ required: "جنسیت الزامی است" }}
+          render={({ field }) => (
+            <DrawerSelect
+              {...field}
+              options={genderOption}
+              title="انتخاب جنسیت"
+              placeholder="انتخاب جنسیت"
+              error={!!errors.gender}
+            />
+          )}
         />
 
         {errors.gender && (
-          <p className="text-destructive text-xs">{errors.gender?.message}</p>
+          <FieldDescription className="text-destructive">
+            {errors.gender.message}
+          </FieldDescription>
         )}
-      </div>
+      </Field>
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">تاریخ تولد</label>
+      <Field>
+        <FieldLabel htmlFor="date">تاریخ تولد</FieldLabel>
         <Input
           type="date"
-          {...register("birthDate", {
+          {...register("birth_date", {
             required: "تاریخ تولد الزامی است",
           })}
-          aria-invalid={!!errors.birthDate}
+          aria-invalid={!!errors.birth_date}
         />
-        {errors.birthDate && (
-          <p className="text-destructive text-xs">{errors.birthDate.message}</p>
+        {errors.birth_date && (
+          <FieldDescription className="text-destructive">
+            {errors.birth_date.message}
+          </FieldDescription>
         )}
-      </div>
+      </Field>
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">وزن </label>
+      <Field data-invalid={!!errors.weight}>
+        <FieldLabel>وزن</FieldLabel>
         <Input
           type="number"
           inputMode="numeric"
-          placeholder="بر حسب کیلوگرم"
           {...register("weight", {
             required: "وزن الزامی است",
             valueAsNumber: true,
@@ -99,16 +181,17 @@ export default function PersonalInfoStep({
           aria-invalid={!!errors.weight}
         />
         {errors.weight && (
-          <p className="text-destructive text-xs">{errors.weight.message}</p>
+          <FieldDescription className="text-destructive">
+            {errors.weight.message}
+          </FieldDescription>
         )}
-      </div>
+      </Field>
 
-      <div className="flex flex-1 flex-col gap-2">
-        <label className="text-sm font-medium">قد </label>
+      <Field data-invalid={!!errors.height} className="flex-1">
+        <FieldLabel>قد</FieldLabel>
         <Input
           type="number"
           inputMode="numeric"
-          placeholder="بر حسب سانتی‌متر"
           {...register("height", {
             required: "قد الزامی است",
             valueAsNumber: true,
@@ -117,9 +200,11 @@ export default function PersonalInfoStep({
           aria-invalid={!!errors.height}
         />
         {errors.height && (
-          <p className="text-destructive text-xs">{errors.height.message}</p>
+          <FieldDescription className="text-destructive">
+            {errors.height.message}
+          </FieldDescription>
         )}
-      </div>
+      </Field>
 
       <div className="mt-4 flex gap-3">
         <Button

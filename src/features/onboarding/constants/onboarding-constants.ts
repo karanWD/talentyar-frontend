@@ -1,8 +1,8 @@
 import { ActivityHistoryType, GenderType } from "../types";
 
 export const genderOption: GenderType = [
-  { label: "مرد", value: "male" },
-  { label: "زن", value: "female" },
+  { label: "مرد", value: 0 },
+  { label: "زن", value: 1 },
 ];
 
 export const footOptions = [
@@ -28,11 +28,11 @@ export const positionOptions = [
 
 export const skillLevelOptions = [
   { label: "مبتدی", value: "beginner" },
-  { label: "نیمه حرفه‌ای", value: "semi-pro" },
-  { label: "حرفه‌ای", value: "pro" },
+  { label: "نیمه حرفه‌ای", value: "semi-professional" },
+  { label: "حرفه‌ای", value: "professional" },
 ];
 
 export const activityHistoryOptions: ActivityHistoryType = [
-  { label: "دارم", value: "yes" },
-  { label: "ندارم", value: "no" },
+  { label: "دارم", value: true },
+  { label: "ندارم", value: false },
 ];

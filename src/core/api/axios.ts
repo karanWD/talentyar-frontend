@@ -32,7 +32,7 @@ api.interceptors.response.use(
       removeToken();
 
       if (typeof window !== "undefined") {
-        window.location.href = "/login";
+        window.location.href = "/auth";
       }
 
       return Promise.reject(new Error("توکن شما منقضی شده است"));

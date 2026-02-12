@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/ui/drawer";
+import { Field, FieldLabel } from "@/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/ui/input-group";
 import { RadioGroup, RadioGroupItem } from "@/ui/radio-group";
 
@@ -19,6 +20,7 @@ type DrawerSelectProps<T extends string> = {
   error?: boolean;
   placeholder?: string;
   title?: string;
+  disabled?: boolean;
 };
 
 export function DrawerSelect<T extends string>({
@@ -28,6 +30,7 @@ export function DrawerSelect<T extends string>({
   error,
   placeholder = "انتخاب کنید",
   title = "انتخاب گزینه",
+  disabled = false,
 }: DrawerSelectProps<T>) {
   const [open, setOpen] = useState(false);
 
@@ -40,8 +43,8 @@ export function DrawerSelect<T extends string>({
           readOnly
           placeholder={placeholder}
           value={selectedOption?.label ?? ""}
-          onClick={() => setOpen(true)}
-          className="cursor-pointer"
+          onClick={() => !disabled && setOpen(true)}
+          className={`cursor-pointer ${disabled ? "cursor-default opacity-50" : ""}`}
           aria-invalid={error}
         />
         <InputGroupAddon align="inline-end">
@@ -55,7 +58,7 @@ export function DrawerSelect<T extends string>({
             <DrawerTitle>{title}</DrawerTitle>
           </DrawerHeader>
 
-          <div className="px-4 pb-6">
+          <div className="no-scrollbar overflow-y-auto px-4 pb-6">
             <RadioGroup
               value={value}
               onValueChange={(val) => {
@@ -66,13 +69,16 @@ export function DrawerSelect<T extends string>({
               dir="rtl"
             >
               {options.map((option) => (
-                <label
-                  key={option.value}
-                  className="flex items-center gap-3 p-1"
-                >
-                  <RadioGroupItem value={option.value} />
-                  <span>{option.label}</span>
-                </label>
+                <Field orientation="horizontal" key={option.value}>
+                  <RadioGroupItem
+                    value={option.value}
+                    id={option.label}
+                    disabled={disabled}
+                  />
+                  <FieldLabel htmlFor={option.label} className="font-normal">
+                    {option.label}
+                  </FieldLabel>
+                </Field>
               ))}
             </RadioGroup>
           </div>
