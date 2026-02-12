@@ -27,12 +27,16 @@ export default function OtpMaskedInput({
   const prevLengthRef = useRef(0);
 
   useEffect(() => {
-    if (value.length === length && prevLengthRef.current !== length) {
+    if (
+      value.length === length &&
+      prevLengthRef.current !== length &&
+      !disabled
+    ) {
       onComplete?.(value);
     }
 
     prevLengthRef.current = value.length;
-  }, [value, length, onComplete]);
+  }, [value, length, onComplete, disabled]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, length);
@@ -43,11 +47,10 @@ export default function OtpMaskedInput({
     <div
       onClick={() => inputRef.current?.focus()}
       className={cn(
-        "bg-background relative flex h-12 w-full items-center rounded-full border px-3",
+        "relative flex h-12 w-full items-center rounded-full border px-3 transition-colors",
         invalid
-          ? "border-destructive focus-within:ring-destructive"
-          : "border-input focus-within:ring-ring",
-        "focus-within:ring-2",
+          ? "border-destructive focus-within:ring-destructive focus-within:ring-2"
+          : "border-input focus-within:ring-ring focus-within:ring-2",
         disabled && "opacity-50",
       )}
     >
@@ -56,6 +59,8 @@ export default function OtpMaskedInput({
         type="text"
         inputMode="numeric"
         autoComplete="one-time-code"
+        aria-invalid={invalid}
+        autoFocus
         value={value}
         onChange={handleChange}
         disabled={disabled}

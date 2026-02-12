@@ -6,6 +6,7 @@ import { useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 
+import { setToken } from "@/core/auth/token";
 import { Button } from "@/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 
@@ -41,7 +42,7 @@ export default function OtpStep({
     mutationFn: ({ otp }: OtpFormValues) => login({ phone, otp }),
 
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
+      setToken(data.token);
 
       toast.success("ورود با موفقیت انجام شد", {
         position: "top-center",
@@ -132,6 +133,7 @@ export default function OtpStep({
                   if (errors.otp) clearErrors("otp");
                 }}
                 onComplete={handleComplete}
+                disabled={loginMutation.isPending}
               />
             )}
           />

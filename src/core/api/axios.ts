@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { getToken, removeToken } from "../auth/token";
+
 import { ApiResponse } from "./types";
 
 const api = axios.create({
@@ -9,18 +11,32 @@ const api = axios.create({
 });
 
 // Request interceptor
-api.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+api.interceptors.request.use((config) => {
+  const token = getToken();
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
 
 // Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    const status = error?.response?.status;
     const data = error?.response?.data as ApiResponse<unknown> | undefined;
+
+    if (status === 401) {
+      removeToken();
+
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+
+      return Promise.reject(new Error("توکن شما منقضی شده است"));
+    }
 
     if (data?.errors) {
       const firstFieldError = Object.values(data.errors)[0]?.[0];
@@ -31,6 +47,10 @@ api.interceptors.response.use(
 
     if (data?.message) {
       return Promise.reject(new Error(data.message));
+    }
+
+    if (!error.response) {
+      return Promise.reject(new Error("اتصال به سرور برقرار نشد"));
     }
 
     return Promise.reject(new Error("خطای غیرمنتظره‌ای رخ داد"));

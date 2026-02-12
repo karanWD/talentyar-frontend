@@ -30,6 +30,8 @@ export type User = {
   favorite_foreign_team: string | null;
   shirt_number: number | null;
   bio: string | null;
+  followers_count: number;
+  following_count: number;
   created_at: string;
   updated_at: string;
 };
@@ -38,4 +40,18 @@ export type LoginResponse = {
   token: string;
   user: User;
   first_user: boolean;
+};
+
+export type ProfileResponse = {
+  success: true;
+  message: string;
+  data: {
+    user: User;
+  };
+};
+
+export type ProfileErrorResponse = {
+  success: false;
+  message: string;
+  data: null;
 };
