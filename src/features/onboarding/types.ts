@@ -39,7 +39,7 @@ export type PersonalInfoType = {
   province_id: string;
   city_id: string;
   gender: number;
-  birth_date: string;
+  birth_date: string | Date;
   weight: number;
   height: number;
 };
@@ -65,7 +65,7 @@ export type ProfileType = {
   province_id: string;
   city_id: string;
   gender: number;
-  birth_date: string;
+  birth_date: string | Date;
   weight: number;
   height: number;
   foot_specialization: string;

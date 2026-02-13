@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
+import { format } from "date-fns-jalali";
 import { useRouter } from "next/navigation";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -80,6 +81,7 @@ export default function SpecializedInfoStep({
     const finalDraft = {
       ...profileDraft,
       ...data,
+      birth_date: format(profileDraft?.birth_date as Date, "yyyy-MM-dd"),
     };
 
     updateDraft(data);

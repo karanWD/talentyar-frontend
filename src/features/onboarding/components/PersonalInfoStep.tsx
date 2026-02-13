@@ -1,13 +1,17 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns-jalali";
+import { faIR } from "react-day-picker/persian";
 import { useForm, Controller, useWatch } from "react-hook-form";
 
 import { useOnboardingStore } from "@/stores/onboarding.store";
 import { Button } from "@/ui/button";
+import { Calendar } from "@/ui/calendar";
 import { DrawerSelect } from "@/ui/drawer-select";
 import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 import { Input } from "@/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 
 import { getProvinces, getCities } from "../api";
 import { genderOption } from "../constants/onboarding-constants";
@@ -152,20 +156,43 @@ export default function PersonalInfoStep({
         )}
       </Field>
 
-      <Field>
+      <Field className="mx-auto">
         <FieldLabel htmlFor="date">تاریخ تولد</FieldLabel>
-        <Input
-          type="date"
-          {...register("birth_date", {
-            required: "تاریخ تولد الزامی است",
-          })}
-          aria-invalid={!!errors.birth_date}
+        <Controller
+          control={control}
+          name={"birth_date"}
+          rules={{ required: "تاریخ تولد الزامی است" }}
+          render={({ field }) => (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  id="date"
+                  className={`${field.value ? "" : "text-muted-foreground"} justify-start font-normal`}
+                  size={"lg"}
+                >
+                  {field.value
+                    ? format(field.value, "yyyy/MM/dd")
+                    : "****/**/**"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-auto overflow-hidden p-0"
+                align="start"
+              >
+                <Calendar
+                  mode="single"
+                  dir="rtl"
+                  locale={faIR}
+                  selected={field.value as Date | undefined}
+                  defaultMonth={field.value as Date | undefined}
+                  captionLayout="dropdown"
+                  onSelect={(date) => field.onChange(date)}
+                />
+              </PopoverContent>
+            </Popover>
+          )}
         />
-        {errors.birth_date && (
-          <FieldDescription className="text-destructive">
-            {errors.birth_date.message}
-          </FieldDescription>
-        )}
       </Field>
 
       <Field data-invalid={!!errors.weight}>

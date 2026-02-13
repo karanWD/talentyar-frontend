@@ -1,6 +1,8 @@
 "use client";
 
+import { format } from "date-fns-jalali";
 import * as React from "react";
+import { faIR } from "react-day-picker/persian";
 
 import { Button } from "@/ui/button";
 import { Field, FieldLabel } from "@/ui/field";
@@ -22,12 +24,14 @@ export function DatePickerSimple() {
             id="date"
             className="justify-start font-normal"
           >
-            {date ? date.toLocaleDateString() : "Select date"}
+            {date ? format(date, "yyyy/MM/dd") : "Select date"}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="single"
+            dir="rtl"
+            locale={faIR}
             selected={date}
             defaultMonth={date}
             captionLayout="dropdown"
