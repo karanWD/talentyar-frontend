@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
   useContext,
@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { getToken, removeToken, setToken } from "@/core/auth/token";
+import { queryKeys } from "@/core/react-query/keys";
 import { getProfile, logout } from "@/features/auth/api";
 import { User } from "@/features/auth/types";
 
@@ -24,14 +25,16 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const queryClient = useQueryClient();
   const [localToken, setLocalToken] = useState<string | null>(getToken());
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["profile"],
+    queryKey: queryKeys.auth.profile,
     queryFn: getProfile,
     enabled: !!localToken,
     retry: false,
     select: (res) => res.data.user as User,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -52,6 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       removeToken();
       setLocalToken(null);
+      queryClient.clear();
     }
   };
 

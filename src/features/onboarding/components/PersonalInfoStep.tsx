@@ -5,6 +5,7 @@ import { format } from "date-fns-jalali";
 import { faIR } from "react-day-picker/persian";
 import { useForm, Controller, useWatch } from "react-hook-form";
 
+import { queryKeys } from "@/core/react-query/keys";
 import { useOnboardingStore } from "@/stores/onboarding.store";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
@@ -49,14 +50,17 @@ export default function PersonalInfoStep({
   });
 
   const { data: provincesData } = useQuery({
-    queryKey: ["provinces"],
+    queryKey: queryKeys.location.provinces,
     queryFn: () => getProvinces(),
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
   const { data: citiesData } = useQuery({
-    queryKey: ["cities", provinceId],
+    queryKey: queryKeys.location.cities(provinceId),
     queryFn: () => getCities(+provinceId),
     enabled: !!provinceId,
+    staleTime: 10 * 60 * 1000,
   });
 
   const provinces =
