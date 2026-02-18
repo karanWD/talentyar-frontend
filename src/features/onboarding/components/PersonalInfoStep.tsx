@@ -5,14 +5,18 @@ import { format } from "date-fns-jalali";
 import { faIR } from "react-day-picker/persian";
 import { useForm, Controller, useWatch } from "react-hook-form";
 
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { DrawerSelect } from "@/components/ui/drawer-select";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { queryKeys } from "@/core/react-query/keys";
 import { useOnboardingStore } from "@/stores/onboarding.store";
-import { Button } from "@/ui/button";
-import { Calendar } from "@/ui/calendar";
-import { DrawerSelect } from "@/ui/drawer-select";
-import { Field, FieldDescription, FieldLabel } from "@/ui/field";
-import { Input } from "@/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 
 import { getProvinces, getCities } from "../api";
 import { genderOption } from "../constants/onboarding-constants";

@@ -13,8 +13,8 @@ import {
 } from "react-day-picker";
 import { DayPicker } from "react-day-picker/jalali";
 
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/ui/button";
 
 function Calendar({
   className,

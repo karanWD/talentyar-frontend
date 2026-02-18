@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { DrawerSelect } from "@/components/ui/drawer-select";
+import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useOnboardingStore } from "@/stores/onboarding.store";
-import { Button } from "@/ui/button";
-import { DrawerSelect } from "@/ui/drawer-select";
-import { Field, FieldLabel, FieldDescription } from "@/ui/field";
-import { Input } from "@/ui/input";
-import { Textarea } from "@/ui/textarea";
 
 import { postProfile } from "../api";
 import {

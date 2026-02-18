@@ -6,9 +6,9 @@ import { useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { setToken } from "@/core/auth/token";
-import { Button } from "@/ui/button";
-import { Field, FieldDescription, FieldLabel } from "@/ui/field";
 
 import { login, sendOtp } from "../api";
 

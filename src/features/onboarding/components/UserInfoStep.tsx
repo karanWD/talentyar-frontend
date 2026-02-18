@@ -4,12 +4,12 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
+import { Button } from "@/components/ui/button";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useOnboardingStore } from "@/stores/onboarding.store";
-import { Button } from "@/ui/button";
-import { Field, FieldDescription, FieldLabel } from "@/ui/field";
-import { Input } from "@/ui/input";
-import { Spinner } from "@/ui/spinner";
 
 import { checkUsername } from "../api";
 import { UserInfoType } from "../types";

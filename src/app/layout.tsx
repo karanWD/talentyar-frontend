@@ -1,8 +1,8 @@
 import "./globals.css";
 
+import { BottomNavigation } from "@/components/layout/BottomNavigation";
+import { Toaster } from "@/components/ui/sonner";
 import { abril, appFont } from "@/core/fonts/font";
-import { BottomNavigation } from "@/features/ui/BottomNavigation";
-import { Toaster } from "@/ui/sonner";
 
 import Providers from "./providers";
 
