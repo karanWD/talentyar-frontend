@@ -29,10 +29,11 @@
     "paths": {
       "@/*": ["*"],
       "@/app/*": ["app/*"],
+      "@/components/*": ["components/*"],
+      "@/assets/*": ["assets/*"],
       "@/constants/*": ["constants/*"],
       "@/core/*": ["core/*"],
       "@/features/*": ["features/*"],
-      "@/ui/*": ["ui/*"],
       "@/hooks/*": ["hooks/*"],
       "@/lib/*": ["lib/*"],
       "@/stores/*": ["stores/*"],

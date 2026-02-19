@@ -11,7 +11,7 @@ export default function AuthFlow() {
   const [phone, setPhone] = useState("");
 
   return (
-    <main className="flex min-h-screen flex-col gap-11 px-5 pt-13">
+    <main className="flex min-h-dvh flex-col gap-11 px-5 pt-13">
       <div className="flex justify-center">
         <Image
           alt="logo-talentyar"

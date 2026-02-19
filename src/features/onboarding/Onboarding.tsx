@@ -48,7 +48,7 @@ const Onboarding = () => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col px-4 pt-5 pb-7">
+    <main className="flex min-h-dvh flex-col px-4 pt-5 pb-7">
       <Stepper
         steps={steps}
         currentStep={currentStep}

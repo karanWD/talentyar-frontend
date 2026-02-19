@@ -24,7 +24,7 @@ export default function RootLayout({
     >
       <body className="bg-background">
         <Providers>
-          <div className="mx-auto min-h-screen max-w-125">
+          <div className="mx-auto min-h-dvh max-w-125">
             {children}
             <BottomNavigation />
           </div>

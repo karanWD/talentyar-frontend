@@ -20,7 +20,7 @@ export function BottomNavigation() {
   if (!showNav) return null;
 
   return (
-    <nav className="border-border bg-background fixed right-5 bottom-7 left-5 z-50 mx-auto max-w-125 gap-2.5 rounded-2xl border px-3 py-2">
+    <nav className="border-border bg-background fixed right-5 bottom-7 left-5 z-50 mx-auto max-w-115 gap-2.5 rounded-2xl border px-3 py-2">
       <ul className="flex h-14 items-center justify-around">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
