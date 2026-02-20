@@ -10,4 +10,14 @@ export const queryKeys = {
     cities: (provinceId: number | string) =>
       ["location", "cities", provinceId] as const,
   },
+
+  feed: {
+    all: ["feed"] as const,
+    user: () => [...queryKeys.feed.all, "user"] as const,
+  },
+
+  comments: {
+    all: ["comments"] as const,
+    list: (postId: number) => ["comments", postId] as const,
+  },
 };

@@ -1,68 +1,29 @@
-import { FeedCard } from "@/components/shared/FeedCard/FeedCard";
-import PremiumCard from "@/components/shared/PremiumCard";
+"use client";
+import { useQuery } from "@tanstack/react-query";
 
+import PremiumCard from "@/components/shared/PremiumCard";
+import { queryKeys } from "@/core/react-query/keys";
+import { FeedCard } from "@/features/feed/components/FeedCard";
+
+import { getUserFeed } from "./api/getUserFeed";
 import InfoCard from "./components/InfoCard";
 
-const posts = [
-  {
-    id: 1,
-    user: {
-      username: "Negin._.Hn",
-      firstName: "نگین",
-      lastName: "حسینی",
-      avatar: "/test-avatar.jpg",
-    },
-    media: "/video-post.mp4",
-    postText: "یه بخش کوچیک از تمرین امروزم نظرت چیه؟....",
-    likesCount: 99,
-    commentsCount: 3,
-    createdAt: "1404-11-29",
-  },
-  {
-    id: 2,
-    user: {
-      username: "Negin._.Hn",
-      firstName: "نگین",
-      lastName: "حسینی",
-      avatar: "/test-avatar.jpg",
-    },
-    media: "/video-post.mp4",
-    postText: "یه بخش کوچیک از تمرین امروزم نظرت چیه؟....",
-    likesCount: 99,
-    commentsCount: 3,
-    createdAt: "1404-11-29",
-  },
-  {
-    id: 3,
-    user: {
-      username: "Negin._.Hn",
-      firstName: "نگین",
-      lastName: "حسینی",
-      avatar: "/test-avatar.jpg",
-    },
-    media: "/video-post.mp4",
-    postText: "یه بخش کوچیک از تمرین امروزم نظرت چیه؟....",
-    likesCount: 99,
-    commentsCount: 3,
-    createdAt: "1404-11-29",
-  },
-];
-
 const Home = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: queryKeys.feed.user(),
+    queryFn: getUserFeed,
+  });
+  const posts = data?.data?.posts;
+
+  if (isLoading) return <div>loading...</div>;
+
   return (
     <div className="flex flex-col gap-4 px-5 pt-8 pb-30">
       <InfoCard />
-      {posts.map((p) => (
-        <FeedCard
-          key={p.id}
-          commentsCount={p.commentsCount}
-          createdAt={p.createdAt}
-          likesCount={p.likesCount}
-          media={p.media}
-          postText={p.postText}
-          user={p.user}
-        />
+      {posts?.map((post) => (
+        <FeedCard key={post.id} post={post} />
       ))}
+
       <PremiumCard />
     </div>
   );
