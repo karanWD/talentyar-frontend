@@ -1,7 +1,5 @@
-import { FeedCard } from "@/components/shared/FeedCard";
+import { FeedCard } from "@/components/shared/FeedCard/FeedCard";
 import PremiumCard from "@/components/shared/PremiumCard";
-import avatarImage from "@/components/shared/test-avatar.jpg";
-import postImage from "@/components/shared/test-post.jpg";
 
 import InfoCard from "./components/InfoCard";
 
@@ -9,12 +7,12 @@ const posts = [
   {
     id: 1,
     user: {
-      avatar: avatarImage,
       username: "Negin._.Hn",
       firstName: "نگین",
       lastName: "حسینی",
+      avatar: "/test-avatar.jpg",
     },
-    media: postImage,
+    media: "/video-post.mp4",
     postText: "یه بخش کوچیک از تمرین امروزم نظرت چیه؟....",
     likesCount: 99,
     commentsCount: 3,
@@ -23,12 +21,12 @@ const posts = [
   {
     id: 2,
     user: {
-      avatar: avatarImage,
       username: "Negin._.Hn",
       firstName: "نگین",
       lastName: "حسینی",
+      avatar: "/test-avatar.jpg",
     },
-    media: postImage,
+    media: "/video-post.mp4",
     postText: "یه بخش کوچیک از تمرین امروزم نظرت چیه؟....",
     likesCount: 99,
     commentsCount: 3,
@@ -37,12 +35,12 @@ const posts = [
   {
     id: 3,
     user: {
-      avatar: avatarImage,
       username: "Negin._.Hn",
       firstName: "نگین",
       lastName: "حسینی",
+      avatar: "/test-avatar.jpg",
     },
-    media: postImage,
+    media: "/video-post.mp4",
     postText: "یه بخش کوچیک از تمرین امروزم نظرت چیه؟....",
     likesCount: 99,
     commentsCount: 3,

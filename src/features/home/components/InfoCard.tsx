@@ -1,6 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 
+import { Button } from "@/components/ui/button";
+
 const InfoCard = () => {
   return (
     <div className="bg-muted g flex flex-col gap-1 rounded-2xl px-2.5 py-2">
@@ -24,8 +26,10 @@ const InfoCard = () => {
         </div>
       </div>
       <div className="text-primary flex items-center justify-end gap-1.5 py-2 pl-1 text-xs leading-4">
-        <span>مشاهده</span>
-        <ArrowLeft className="size-5" strokeWidth={1.5} />
+        <Button variant={"link"}>
+          مشاهده
+          <ArrowLeft className="size-5" strokeWidth={1.5} />
+        </Button>
       </div>
     </div>
   );
