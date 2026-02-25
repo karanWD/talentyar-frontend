@@ -70,8 +70,8 @@ export function FeedCard({ post }: Props) {
           onClick={() => setOpen(true)}
         >
           <MessageSquare className="h-5 w-5" strokeWidth={1.5} />
-          {post.comments_count > 0 && (
-            <span className="text-sm">{post.comments_count}</span>
+          {post.comment_count > 0 && (
+            <span className="text-sm">{post.comment_count}</span>
           )}
         </span>
       </div>

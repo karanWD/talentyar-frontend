@@ -22,7 +22,7 @@ export type FeedPost = {
   caption: string;
   video: FeedVideo;
   likes_count: number;
-  comments_count: number;
+  comment_count: number;
   user_has_liked: boolean;
   created_at: string;
 };

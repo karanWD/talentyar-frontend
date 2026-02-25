@@ -107,6 +107,7 @@ export default function Search({ onClose }: Props) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="جستجو ..."
+              type="search"
             />
             <InputGroupAddon align="inline-start">
               <SearchIcon className="text-muted-foreground" />

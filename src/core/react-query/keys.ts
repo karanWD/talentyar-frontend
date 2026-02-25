@@ -20,4 +20,12 @@ export const queryKeys = {
     all: ["comments"] as const,
     list: (postId: number) => ["comments", postId] as const,
   },
+
+  profile: {
+    me: ["profile", "me"] as const,
+  },
+
+  posts: {
+    me: ["posts", "me"] as const,
+  },
 };
