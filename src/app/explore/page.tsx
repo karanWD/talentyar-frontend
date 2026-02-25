@@ -1,7 +1,7 @@
-import React from "react";
+import Explore from "@/features/explore/Explore";
 
 const ExplorePage = () => {
-  return <div></div>;
+  return <Explore />;
 };
 
 export default ExplorePage;
