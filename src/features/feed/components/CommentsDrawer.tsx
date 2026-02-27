@@ -1,7 +1,7 @@
 import { ArrowUpIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -78,9 +78,10 @@ export function CommentsDrawer({
               >
                 <Avatar className="size-10.5">
                   <AvatarImage
-                    src={comment.user.avatar_url || ""}
+                    src={comment.user.avatar_url ?? "default-avatar.png"}
                     alt={comment.user.username}
                   />
+                  <AvatarFallback>PP</AvatarFallback>
                 </Avatar>
 
                 <div className="flex flex-col">

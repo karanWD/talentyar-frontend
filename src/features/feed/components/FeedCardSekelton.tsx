@@ -14,7 +14,7 @@ const FeedCardSekelton = () => {
 
       {/* Media */}
       <div className="pb-2">
-        <Skeleton className="aspect-video w-full" />
+        <Skeleton className="aspect-9/16 w-full" />
       </div>
 
       {/* Actions */}

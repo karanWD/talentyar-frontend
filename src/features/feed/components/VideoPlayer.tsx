@@ -36,7 +36,7 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
       <video
         ref={videoRef}
         src={src}
-        className="h-full w-full object-cover"
+        className="aspect-9/16 w-full object-cover"
         muted
         playsInline
         controls={false}

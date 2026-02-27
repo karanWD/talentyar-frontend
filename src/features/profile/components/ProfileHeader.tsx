@@ -25,7 +25,7 @@ export default function ProfileHeader({ user }: Props) {
       <div className="flex items-center gap-4">
         <Avatar className="size-18" dir="rtl">
           <AvatarImage
-            src={user.avatar_url ?? "test-avatar.jpg"}
+            src={user.avatar_url ?? "default-avatar.png"}
             alt={user.username!}
           />
           <AvatarFallback>PP</AvatarFallback>
@@ -36,7 +36,7 @@ export default function ProfileHeader({ user }: Props) {
         <div className="flex flex-1 flex-col">
           <div className="flex justify-around gap-2">
             <div className="flex cursor-pointer flex-col items-center gap-1">
-              <span className="text-sm leading-5">{user.posts_count ?? 0}</span>
+              <span className="text-sm leading-5">{user.post_count}</span>
               <span className="text-sm leading-5">ویدیو ها</span>
             </div>
             <div className="flex cursor-pointer flex-col items-center gap-1">

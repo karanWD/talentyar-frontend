@@ -3,7 +3,7 @@ import { Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useToggleLike } from "../hooks/useToggleLike";
 import { FeedPost } from "../types";
@@ -32,7 +32,11 @@ export function FeedCard({ post }: Props) {
       <Link href={`/profile/${post.user.username}`} className="flex w-fit">
         <div className="flex items-center gap-2 pb-3">
           <Avatar className="size-10.5">
-            <AvatarImage src={post.user.avatar_url} alt={post.user.username} />
+            <AvatarImage
+              src={post.user.avatar_url ?? "default-avatar.png"}
+              alt={post.user.username}
+            />
+            <AvatarFallback>PP</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <span className="text-sm font-semibold">{post.user.username}</span>
