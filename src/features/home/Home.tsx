@@ -6,6 +6,7 @@ import { queryKeys } from "@/core/react-query/keys";
 import { FeedCard } from "@/features/feed/components/FeedCard";
 
 import { getUserFeed } from "./api/getUserFeed";
+import HomeSkeleton from "./components/HomeSkeleton";
 import InfoCard from "./components/InfoCard";
 
 const Home = () => {
@@ -15,7 +16,7 @@ const Home = () => {
   });
   const posts = data?.data?.posts;
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <HomeSkeleton />;
 
   return (
     <div className="flex flex-col gap-4 px-5 pt-8 pb-30">

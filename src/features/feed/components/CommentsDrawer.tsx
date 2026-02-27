@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { useAddComment } from "../hooks/useAddComment";
 import { usePostComments } from "../hooks/usePostComments";
 
+import CommentSkeleton from "./CommentSkeleton";
+
 type CommentsDrawerProps = {
   postId: number;
   open: boolean;
@@ -55,7 +57,11 @@ export function CommentsDrawer({
 
         <div className="min-h-0 flex-1 overflow-y-auto px-4">
           {isLoading && (
-            <p className="text-muted-foreground text-sm">در حال دریافت...</p>
+            <div className="space-y-4 pb-24">
+              <CommentSkeleton />
+              <CommentSkeleton />
+              <CommentSkeleton />
+            </div>
           )}
 
           {!isLoading && comments?.length === 0 && (
@@ -70,7 +76,7 @@ export function CommentsDrawer({
                 key={comment.id}
                 className="border-border flex gap-2 border-b py-2"
               >
-                <Avatar>
+                <Avatar className="size-10.5">
                   <AvatarImage
                     src={comment.user.avatar_url || ""}
                     alt={comment.user.username}

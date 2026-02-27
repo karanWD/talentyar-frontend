@@ -31,7 +31,7 @@ export function FeedCard({ post }: Props) {
       {/* Header */}
       <Link href={`/profile/${post.user.username}`} className="flex w-fit">
         <div className="flex items-center gap-2 pb-3">
-          <Avatar size="lg">
+          <Avatar className="size-10.5">
             <AvatarImage src={post.user.avatar_url} alt={post.user.username} />
           </Avatar>
           <div className="flex flex-col">

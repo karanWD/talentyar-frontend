@@ -49,6 +49,7 @@ export default function Search({ onClose }: Props) {
 
   useEffect(() => {
     if (!debouncedQuery.trim()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResults([]);
       return;
     }
@@ -64,7 +65,7 @@ export default function Search({ onClose }: Props) {
           last_name: "سلیمی",
           full_name: "محمد سلیمی",
           username: "mohamad",
-          avatar_url: "test-avatar.jpg",
+          avatar_url: "default-avatar.png",
         },
         {
           id: 2,
@@ -72,7 +73,7 @@ export default function Search({ onClose }: Props) {
           last_name: "شمس",
           full_name: "کارن شمس",
           username: "karan_shams",
-          avatar_url: "test-avatar.jpg",
+          avatar_url: "default-avatar.png",
         },
         {
           id: 3,
@@ -80,7 +81,7 @@ export default function Search({ onClose }: Props) {
           last_name: "حسینی",
           full_name: "سینا حسینی",
           username: "sina.h",
-          avatar_url: "test-avatar.jpg",
+          avatar_url: "default-avatar.png",
         },
       ];
 
@@ -128,27 +129,23 @@ export default function Search({ onClose }: Props) {
 
         {!isSearching &&
           results.map((item) => (
-            <>
-              <Link
-                key={item.username}
-                href={`/profile/${item.username}`}
-                className="border-border flex border-b"
-              >
-                <div className="flex items-center gap-2 pb-3">
-                  <Avatar size="lg">
-                    <AvatarImage src={item.avatar_url} alt={item.username} />
-                  </Avatar>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold">
-                      {item.username}
-                    </span>
-                    <span className="text-muted-foreground text-xs">
-                      {item.first_name} {item.last_name}
-                    </span>
-                  </div>
+            <Link
+              key={item.username}
+              href={`/profile/${item.username}`}
+              className="border-border flex border-b"
+            >
+              <div className="flex items-center gap-2 pb-3">
+                <Avatar className="size-10.5">
+                  <AvatarImage src={item.avatar_url} alt={item.username} />
+                </Avatar>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold">{item.username}</span>
+                  <span className="text-muted-foreground text-xs">
+                    {item.first_name} {item.last_name}
+                  </span>
                 </div>
-              </Link>
-            </>
+              </div>
+            </Link>
           ))}
       </div>
 
