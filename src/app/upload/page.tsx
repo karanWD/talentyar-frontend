@@ -1,7 +1,7 @@
-import React from "react";
+import Upload from "@/features/upload/Upload";
 
 const UploadPage = () => {
-  return <div></div>;
+  return <Upload />;
 };
 
 export default UploadPage;

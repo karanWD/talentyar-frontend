@@ -14,9 +14,7 @@ const navItems = [
 export function BottomNavigation() {
   const pathname = usePathname();
 
-  const showNav = ["/", "/explore", "/profile", "/upload"].includes(
-    pathname || "",
-  );
+  const showNav = ["/", "/explore", "/profile"].includes(pathname || "");
   if (!showNav) return null;
 
   return (
