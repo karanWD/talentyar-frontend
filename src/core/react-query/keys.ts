@@ -28,4 +28,12 @@ export const queryKeys = {
   posts: {
     me: ["posts", "me"] as const,
   },
+
+  followers: {
+    me: ["followers", "me"] as const,
+  },
+
+  following: {
+    me: ["following", "me"] as const,
+  },
 };

@@ -39,7 +39,7 @@ export type UserProfile = {
   following_count: number;
   created_at: string;
   updated_at: string;
-  posts_count?: number;
+  post_count?: number;
 };
 
 export type UserProfileResponse = {
@@ -84,5 +84,21 @@ export type GetUserFeedResponse = {
   message: string;
   data: {
     posts: FeedPost[];
+  };
+};
+
+export type GetFollowersResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    followers: User[];
+  };
+};
+
+export type GetFollowingResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    following: User[];
   };
 };
